@@ -2,9 +2,11 @@
 name = "multi-start"
 version = "0.1.0"
 edition = "2021"
-description = "Launch bookmarks directly from the terminal"
+description = "Launch browser bookmarks directly from the terminal"
 license = "Unlicense"
 repository = "https://github.com/lesleyrs/multi-start"
+keywords = ["bookmarks", "cli", "web", "json", "terminal"]
+categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
