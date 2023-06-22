@@ -1,0 +1,14 @@
+[package]
+name = "multi-start"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde_json = "1.0.97"
+time = { version = "0.3.22", features = ["local-offset"] }
+
+[[bin]]
+name = "bm"
+path = "src/main.rs"
