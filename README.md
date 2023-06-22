@@ -7,3 +7,8 @@ It's recommended to pipe the output into [`rg`](https://github.com/BurntSushi/ri
 
 Folders are ignored, and only the Windows + Chrome combination is supported for now.
 However changing it to work on other OS and browsers shouldn't be too much work as they use a similar json file.
+
+## How to get
+Install | Build | Binaries
+|---|---|---|
+cargo install multi-start | cargo r --release | [Github releases](https://github.com/lesleyrs/multi-start/releases/latest)
