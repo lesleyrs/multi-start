@@ -133,7 +133,7 @@ fn main() {
                             _ => eprintln!(
                                 "Error: entered: [{}] max: [{}], folders are ignored.",
                                 i,
-                                vec.len().saturating_sub(1)
+                                vec.len() - 1
                             ),
                         },
                     }
