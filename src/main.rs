@@ -1,6 +1,7 @@
 use std::{
     collections::HashMap,
     env, fs,
+    path::Path,
     process::{self, Command},
 };
 
@@ -103,14 +104,25 @@ fn main() {
                     match i < vec.len().try_into().unwrap() {
                         true => {
                             if cfg!(target_os = "windows") {
+                                let mut path = Path::new(
+                                    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+                                );
+                                if !path.exists() {
+                                    path = Path::new(
+                                        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                                    );
+                                    if !path.exists() {
+                                        process::exit(1);
+                                    }
+                                }
                                 Command::new("cmd")
-                            .args([
-                                "/C",
-                                r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-                                vec[i as usize],
-                            ])
+                                    .args([
+                                        "/C",
+                                        path.to_str().unwrap(),
+                                        &vec[i as usize].replace('&', "^&"),
+                                    ])
                                     .spawn()
-                            .expect("failed to execute process")
+                                    .expect("failed to execute process")
                             } else {
                                 Command::new("sh")
                                     .arg("-c")
