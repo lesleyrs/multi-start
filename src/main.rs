@@ -37,7 +37,7 @@ fn main() {
 
                 if j["url"].as_str().is_some() {
                     println!(
-                        "#{} - {} - added: {} last used: {}\n{}\n",
+                        "#{} - \x1b[30m\x1b[43m{}\x1b[0m - \x1b[92madded\x1b[0m: {} \x1b[92mlast used\x1b[0m: {}\n\x1b[91m{}\x1b[0m\n",
                         i,
                         j["name"].as_str().unwrap(),
                         OffsetDateTime::from_unix_timestamp(
@@ -104,21 +104,30 @@ fn main() {
                     match i < vec.len().try_into().unwrap() {
                         true => {
                             if cfg!(target_os = "windows") {
-                                let mut path = Path::new(
+                                let paths = [
                                     r"C:\Program Files\Google\Chrome\Application\chrome.exe",
-                                );
-                                if !path.exists() {
-                                    path = Path::new(
-                                        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-                                    );
-                                    if !path.exists() {
-                                        process::exit(1);
+                                    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                                ];
+
+                                let chrome_path =
+                                    paths.iter().find(|path| Path::new(path).exists());
+
+                                match chrome_path {
+                                    Some(path) => {
+                                        println!(
+                                            "Opening \x1b[93m{}\x1b[0m with \x1b[92m{}\x1b[0m",
+                                            vec[i as usize], path
+                                        )
+                                    }
+                                    None => {
+                                        eprintln!("\x1b[91mGoogle Chrome not found.\x1b[0m");
+                                        std::process::exit(1);
                                     }
                                 }
                                 Command::new("cmd")
                                     .args([
                                         "/C",
-                                        path.to_str().unwrap(),
+                                        chrome_path.unwrap(),
                                         &vec[i as usize].replace('&', "^&"),
                                     ])
                                     .spawn()
@@ -130,7 +139,6 @@ fn main() {
                                     .spawn()
                                     .expect("failed to execute process")
                             };
-                            println!("Success: launched {}", vec[i as usize]);
                             // if !output.stdout.is_empty() {
                             //     println!(
                             //         "output: {}",
